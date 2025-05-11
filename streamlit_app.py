@@ -26,7 +26,23 @@ def analyze_text(text):
         })
     return errors
 
-# 🌡️ CEFR 粗略程度預測（含錯誤比例 + 結構）
+# C2 詞彙清單（可自行擴充）
+advanced_vocab = {
+    "indisputably", "ethical", "dilemmas", "algorithmically", "nuanced",
+    "innovation", "indispensable", "autonomy", "curated", "precipitated",
+    "sophisticated", "conundrum", "plausible", "predicament", "facet",
+    "profound", "ambiguous", "formidable", "henceforth", "nonetheless"
+}
+
+# 詞彙複雜度分析
+def vocab_complexity(text):
+    words = text.lower().split()
+    if not words:
+        return 0
+    advanced_words = [w for w in words if w in advanced_vocab]
+    return len(advanced_words) / len(words)
+
+# 粗略估計 CEFR 等級
 def estimate_cefr_level(text, num_errors):
     words = text.split()
     word_count = len(words)
@@ -42,14 +58,18 @@ def estimate_cefr_level(text, num_errors):
     connectors = ['however', 'although', 'moreover', 'furthermore', 'in addition', 'despite']
     num_connectors = sum(1 for c in connectors if c in text.lower())
 
+    vocab_score = vocab_complexity(text)
     error_ratio = num_errors / word_count if word_count > 0 else 1
 
-    if error_ratio > 0.2 or avg_sentence_length < 7:
-        return "A1–A2"
-    elif error_ratio > 0.1 or avg_sentence_length < 10:
+    # 評分邏輯
+    if error_ratio > 0.15 or avg_sentence_length < 8:
+        return "A1~A2"
+    elif error_ratio > 0.08 or avg_sentence_length < 12:
         return "B1"
-    elif error_ratio > 0.05 or num_connectors < 2:
+    elif error_ratio > 0.03 or num_connectors < 3:
         return "B2"
+    elif vocab_score > 0.08 and avg_sentence_length > 15:
+        return "C2"
     else:
         return "C1"
 
