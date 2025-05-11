@@ -33,6 +33,8 @@ def estimate_cefr_level(text, num_errors):
 
     if word_count < 5 or len(text.strip()) < 20:
         return "內容不足，無法評估程度"
+error_ratio = num_errors / word_count if word_count > 0 else 1
+avg_sentence_length = sum(sentence_lengths) / len(sentence_lengths) if sentence_lengths else 0
 
     # 評分邏輯
     if error_ratio > 0.15 or avg_sentence_length < 8:
