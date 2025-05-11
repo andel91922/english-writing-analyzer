@@ -56,7 +56,7 @@ if st.button("🔍 分析我的寫作"):
             errors = analyze_text(text_input)
             level = estimate_cefr_level(text_input, len(errors))
 
-        st.subheader("🔎 分析結果")
+        st.subheader("🔎 你的寫作分析結果")
         if not errors:
             st.success("恭喜你，未檢測到明顯錯誤！🎉")
         else:
