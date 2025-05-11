@@ -41,8 +41,6 @@ def estimate_cefr_level(text, num_errors):
         return "B1"
     elif error_ratio > 0.03 or num_connectors < 3:
         return "B2"
-    elif vocab_score > 0.08 and avg_sentence_length > 15:
-        return "C2"
     else:
         return "C1"
 
