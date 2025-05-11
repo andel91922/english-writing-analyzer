@@ -63,10 +63,10 @@ if st.button("🔍 分析我的寫作"):
             for i, e in enumerate(errors, 1):
                 st.markdown(f"""
                 **錯誤 {i}**
-                - ❌ 錯誤部分：`{e['error']}`
-                - 💡 建議：{e['suggestion']}
-                - 📘 說明：{e['explanation']}
-                - 🔍 錯誤類型：{e['type']}
+                - 錯誤部分：`{e['error']}`
+                - 建議：{e['suggestion']}
+                - 說明：{e['explanation']}
+                - 錯誤類型：{e['type']}
                 """)
 
             # 統計錯誤類型
