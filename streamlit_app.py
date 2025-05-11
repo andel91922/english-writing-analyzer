@@ -34,17 +34,6 @@ def estimate_cefr_level(text, num_errors):
     if word_count < 5 or len(text.strip()) < 20:
         return "內容不足，無法評估程度"
 
-    sentences = re.split(r"[.!?]", text)
-    sentences = [s for s in sentences if s.strip()]
-    sentence_lengths = [len(s.split()) for s in sentences]
-    avg_sentence_length = sum(sentence_lengths) / len(sentence_lengths) if sentence_lengths else 0
-
-    connectors = ['however', 'although', 'moreover', 'furthermore', 'in addition', 'despite']
-    num_connectors = sum(1 for c in connectors if c in text.lower())
-
-    vocab_score = vocab_complexity(text)
-    error_ratio = num_errors / word_count if word_count > 0 else 1
-
     # 評分邏輯
     if error_ratio > 0.15 or avg_sentence_length < 8:
         return "A1~A2"
