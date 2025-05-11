@@ -26,22 +26,6 @@ def analyze_text(text):
         })
     return errors
 
-# C2 詞彙清單（可自行擴充）
-advanced_vocab = {
-    "indisputably", "ethical", "dilemmas", "algorithmically", "nuanced",
-    "innovation", "indispensable", "autonomy", "curated", "precipitated",
-    "sophisticated", "conundrum", "plausible", "predicament", "facet",
-    "profound", "ambiguous", "formidable", "henceforth", "nonetheless"
-}
-
-# 詞彙複雜度分析
-def vocab_complexity(text):
-    words = text.lower().split()
-    if not words:
-        return 0
-    advanced_words = [w for w in words if w in advanced_vocab]
-    return len(advanced_words) / len(words)
-
 # 粗略估計 CEFR 等級
 def estimate_cefr_level(text, num_errors):
     words = text.split()
