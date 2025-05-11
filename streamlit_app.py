@@ -77,6 +77,15 @@ if st.button("🔍 分析我的寫作"):
             st.subheader("📊 錯誤統計")
             for t, c in type_count.items():
                 st.write(f"- {t}：{c} 筆")
+        import pandas as pd
 
-        st.subheader("🧠 推估英文程度")
-        st.success(f"你的英文程度大約為：**{level}**")
+# 用 Pandas 轉成 DataFrame
+df = pd.DataFrame({
+    "錯誤類型": list(type_count.keys()),
+    "出現次數": list(type_count.values())
+})
+
+st.subheader("📈 錯誤分佈圖表")
+st.bar_chart(df.set_index("錯誤類型"))
+st.subheader("🧠 推估英文程度")
+st.success(f"你的英文程度大約為：**{level}**")
