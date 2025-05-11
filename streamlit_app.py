@@ -56,17 +56,17 @@ if st.button("🔍 分析我的寫作"):
             errors = analyze_text(text_input)
             level = estimate_cefr_level(text_input, len(errors))
 
-        st.subheader("🔎 你的寫作分析結果")
+        st.subheader("🔎 分析結果")
         if not errors:
             st.success("恭喜你，未檢測到明顯錯誤！🎉")
         else:
             for i, e in enumerate(errors, 1):
                 st.markdown(f"""
                 **錯誤 {i}**
-                - 錯誤部分：`{e['error']}`
-                - 建議：{e['suggestion']}
-                - 說明：{e['explanation']}
-                - 錯誤類型：{e['type']}
+                - ❌ 錯誤部分：`{e['error']}`
+                - 💡 建議：{e['suggestion']}
+                - 📘 說明：{e['explanation']}
+                - 🔍 錯誤類型：{e['type']}
                 """)
 
             # 統計錯誤類型
@@ -77,5 +77,6 @@ if st.button("🔍 分析我的寫作"):
             st.subheader("📊 錯誤統計")
             for t, c in type_count.items():
                 st.write(f"- {t}：{c} 筆")
-st.subheader("🧠 推估英文程度")
-st.success(f"你的英文程度大約為：**{level}**")
+
+        st.subheader("🧠 推估英文程度")
+        st.success(f"你的英文程度大約為：**{level}**")
