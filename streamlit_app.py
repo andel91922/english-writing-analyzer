@@ -1,7 +1,5 @@
 import streamlit as st
 import requests
-import re
-import matplotlib.pyplot as plt
 
 # 🔍 錯誤偵測功能（透過 LanguageTool API）
 def analyze_text(text):
