@@ -44,17 +44,6 @@ def estimate_cefr_level(text, num_errors):
     else:
         return "C1"
 
-# 📊 畫圖用的函式
-def plot_error_distribution(error_dict):
-    fig, ax = plt.subplots()
-    types = list(error_dict.keys())
-    counts = list(error_dict.values())
-    ax.bar(types, counts, color="pink")
-    ax.set_title("📈 錯誤分佈圖表")
-    ax.set_ylabel("出現次數")
-    ax.set_xticklabels(types, rotation=0)
-    st.pyplot(fig)
-
 # Streamlit 介面開始
 st.set_page_config(page_title="LingoScope 英文寫作診斷工具")
 st.title("📘 LingoScope 英文寫作診斷工具")
