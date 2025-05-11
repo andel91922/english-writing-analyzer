@@ -36,15 +36,15 @@ def estimate_cefr_level(text, num_errors):
 error_ratio = num_errors / word_count if word_count > 0 else 1
 avg_sentence_length = sum(sentence_lengths) / len(sentence_lengths) if sentence_lengths else 0
 
-    # 評分邏輯
-    if error_ratio > 0.15 or avg_sentence_length < 8:
-        return "A1~A2"
-    elif error_ratio > 0.08 or avg_sentence_length < 12:
-        return "B1"
-    elif error_ratio > 0.03 or num_connectors < 3:
-        return "B2"
-    else:
-        return "C1"
+# 評分邏輯
+if error_ratio > 0.15 or avg_sentence_length < 8:
+    return "A1~A2"
+elif error_ratio > 0.08 or avg_sentence_length < 12:
+    return "B1"
+elif error_ratio > 0.03 or num_connectors < 3:
+    return "B2"
+else:
+    return "C1"
 
 # Streamlit 介面開始
 st.set_page_config(page_title="LingoScope 英文寫作診斷工具")
