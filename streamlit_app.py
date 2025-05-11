@@ -77,26 +77,5 @@ if st.button("🔍 分析我的寫作"):
             st.subheader("📊 錯誤統計")
             for t, c in type_count.items():
                 st.write(f"- {t}：{c} 筆")
-import pandas as pd
-import altair as alt
-
-# 整理錯誤數據
-df = pd.DataFrame({
-    "錯誤類型": list(type_count.keys()),
-    "出現次數": list(type_count.values())
-})
-
-st.subheader("📈 錯誤分佈圖表")
-
-# 使用 Altair 繪製客製化長條圖
-bar_chart = alt.Chart(df).mark_bar(color="#ff99c8").encode(
-    x=alt.X("錯誤類型:N", axis=alt.Axis(labelAngle=0)),  # 🔁 類型文字不旋轉
-    y="出現次數:Q"
-).properties(
-    width=600,
-    height=400
-)
-
-st.altair_chart(bar_chart, use_container_width=True)
 st.subheader("🧠 推估英文程度")
 st.success(f"你的英文程度大約為：**{level}**")
