@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-# 🔍 錯誤偵測功能（透過 LanguageTool API）
+# 分析語法錯誤與建議
 def analyze_text(text):
     url = "https://api.languagetoolplus.com/v2/check"
     params = {
@@ -10,13 +10,13 @@ def analyze_text(text):
     }
 
     response = requests.post(url, data=params)
-    matches = response.json().get("matches", [])
+    matches = response.json()["matches"]
 
     errors = []
     for match in matches:
         error = text[match["offset"]: match["offset"] + match["length"]]
         message = match["message"]
-        replacements = match.get("replacements", [])
+        replacements = match["replacements"]
         rule_type = match["rule"]["issueType"]
         errors.append({
             "error": error,
@@ -24,19 +24,9 @@ def analyze_text(text):
             "explanation": message,
             "type": rule_type
         })
+
     return errors
 
-# 粗略估計 CEFR 等級
-def estimate_cefr_level(text, num_errors):
-    words = text.split()
-    word_count = len(words)
-
-    if word_count < 5 or len(text.strip()) < 20:
-        return "內容不足，無法評估程度"
-error_ratio = num_errors / word_count if word_count > 0 else 1
-avg_sentence_length = sum(sentence_lengths) / len(sentence_lengths) if sentence_lengths else 0
-
-# 評分邏輯
 # 粗略估計 CEFR 程度
 def estimate_cefr_level(text, num_errors):
     words = len(text.split())
@@ -49,7 +39,7 @@ def estimate_cefr_level(text, num_errors):
         return "B1"
     else:
         return "B2 以上"
-
+        
 # Streamlit 介面開始
 st.set_page_config(page_title="LingoScope 英文寫作診斷工具")
 st.title("📘 LingoScope 英文寫作診斷工具")
