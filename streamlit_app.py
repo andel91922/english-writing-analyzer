@@ -28,17 +28,31 @@ def analyze_text(text):
     return errors
 
 # 粗略估計 CEFR 程度
+import re  # 加在最上面 if not 已經 import
+
+# 粗略估計 CEFR 程度（含長度與連接詞）
 def estimate_cefr_level(text, num_errors):
     words = len(text.split())
-    if words == 0:
-        return "無法評估"
-    error_ratio = num_errors / words
-    if error_ratio > 0.2:
-        return "A2 以下"
-    elif error_ratio > 0.1:
+    if words < 5 or len(text.strip()) < 20:
+        return "內容不足，無法評估程度"
+
+    sentences = re.split(r'[.!?]', text)
+    sentence_lengths = [len(s.split()) for s in sentences if s.strip()]
+    avg_sentence_length = sum(sentence_lengths) / len(sentence_lengths) if sentence_lengths else 0
+
+    connectors = ['however', 'although', 'moreover', 'furthermore', 'in addition', 'despite']
+    num_connectors = sum(1 for c in connectors if c in text.lower())
+
+    error_ratio = num_errors / words if words > 0 else 1
+
+    if error_ratio > 0.2 or avg_sentence_length < 7:
+        return "A1–A2"
+    elif error_ratio > 0.1 or avg_sentence_length < 10:
         return "B1"
+    elif error_ratio > 0.05 or num_connectors < 2:
+        return "B2"
     else:
-        return "B2 以上"
+        return "C1"
 
 # Streamlit 主頁面
 st.set_page_config(page_title="LingoScope 英文寫作診斷工具")
@@ -77,6 +91,9 @@ if st.button("🔍 分析我的寫作"):
             st.subheader("📊 錯誤統計")
             for t, c in type_count.items():
                 st.write(f"- {t}：{c} 筆")
-
+                
         st.subheader("🧠 推估英文程度")
-        st.success(f"你的英文程度大約為：**{level}**")
+if level == "內容不足，無法評估程度":
+    st.warning("⚠️ 文字太短或不具語言內容，無法推估英文程度")
+else:
+    st.success(f"你的英文程度大約為：**{level}**")
